@@ -1,0 +1,3 @@
+service {
+  "hana_xsa_mta_dev_02.db::european_countries" as "euro" keys generate local "ID";
+}
