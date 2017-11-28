@@ -1,6 +1,6 @@
 ID: hana_xsa_mta_dev_02
 _schema-version: '2.0'
-version: 0.0.1
+version: 0.0.4
 modules:
   - name: db
     type: hdb
@@ -17,6 +17,11 @@ modules:
     requires:
       - name: hdi_db
       - name: db
+      - name: uaa
+    properties:
+      SAP_JWT_TRUST_ACL: '[{"clientid":"sb-js", "identityzone": "*"}]'
+    parameters:
+      memory: 256M
   - name: ui
     type: html5
     path: ui
@@ -26,8 +31,14 @@ modules:
         properties:
           name: js_be
           url: '~{url}'
+          forwardAuthToken: true
+      - name: uaa
+    properties:
+      TENANT_HOST_PATTERN: '^(.*)-trial-dev-ui.cfapps.eu10.hana.ondemand.com'
 resources:
   - name: hdi_db
     properties:
       hdi-container-name: '${service-name}'
     type: com.sap.xs.hdi-container
+  - name: uaa
+    type: com.sap.xs.uaa
